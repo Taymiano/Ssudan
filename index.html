@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dahabshiil Payment Receipt</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .receipt-container {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Watermark to prevent forgery */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            font-size: 80px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+            z-index: 10;
+            white-space: nowrap;
+            letter-spacing: 5px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px 10px;
+        }
+
+        .success-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .check-icon {
+            background-color: #25D366; /* Bright green check */
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .date-text {
+            color: #666;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        /* Original dark blue color maintained, but softened */
+        .amount {
+            font-size: 38px;
+            font-weight: 600; 
+            color: #1e3a8a; 
+            margin: 20px 0 10px;
+            text-align: center;
+            opacity: 0.9; 
+        }
+
+        .thank-you {
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        /* The grey receipt paper section */
+        .details-section {
+            background-color: #e6e7e9;
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        /* Zig-zag edges for receipt effect */
+        .details-section::before, .details-section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background-size: 20px 10px;
+            background-repeat: repeat-x;
+        }
+
+        .details-section::before {
+            top: -10px;
+            background-image: linear-gradient(135deg, #e6e7e9 50%, transparent 50%), linear-gradient(225deg, #e6e7e9 50%, transparent 50%);
+            background-position: 0 0;
+        }
+
+        .details-section::after {
+            bottom: -10px;
+            background-image: linear-gradient(135deg, transparent 50%, #e6e7e9 50%), linear-gradient(225deg, transparent 50%, #e6e7e9 50%);
+            background-position: 0 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #777;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #222;
+            text-align: right;
+            outline: none;
+            border-bottom: 1px dashed transparent;
+        }
+
+        .detail-value:focus {
+            border-bottom: 1px dashed #999;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .provider-section {
+            background-color: #e6e7e9;
+            padding: 0 20px 30px;
+            position: relative;
+        }
+
+        .provider-title {
+            font-size: 16px;
+            color: #000;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
+            padding-bottom: 20px;
+        }
+
+        .footer-amount {
+            color: #222;
+        }
+
+        /* Edit instruction banner */
+        .edit-banner {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: #888;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="receipt-container">
+        <!-- Visible watermark so this cannot be used as a real receipt -->
+        <div class="watermark"></div>
+
+        <div class="header">
+            <div class="success-text">
+                Payment Successful <span class="check-icon">✓</span>
+            </div>
+            <div class="date-text" contenteditable="true" spellcheck="false">19 Sep 2026, 7:18 AM</div>
+        </div>
+
+        <!-- The amount -->
+        <div class="amount" contenteditable="true" spellcheck="false">USD 10,500.00</div>
+
+        <div class="thank-you">
+            Thank you for making your payment.
+        </div>
+
+        <div class="details-section">
+            <div class="detail-row">
+                <span class="detail-label">Phone Number</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">211984230433</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Transaction Number</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">256762470755</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Paid to</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">DOMINIC NYALUAK CHOL</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payer Method Ref</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">MP673414.3214.V46353</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Counter Name</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">SOUTH SUDAN</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Counter Code</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">21436</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Reference Value</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">4511</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Reason</span>
+                <span class="detail-value" contenteditable="true" spellcheck="false">INVESTOR</span>
+            </div>
+        </div>
+
+        <div class="provider-section">
+            <div class="provider-title" contenteditable="true" spellcheck="false">Dahabshiil</div>
+            
+            <div class="footer-row">
+                <span>Amount Paid</span>
+                <span class="footer-amount" contenteditable="true" spellcheck="false">USD 10,500.00</span>
+            </div>
+        </div>
+
+        <div class="edit-banner">
+            Click on any text to edit it (Design Mockup Only)
+        </div>
+    </div>
+
+</body>
+</html>
